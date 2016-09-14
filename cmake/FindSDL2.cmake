@@ -1,8 +1,9 @@
-
+# Locates SDL2 library
+#
 # This module defines
 # SDL2_LIBRARY, the name of the library to link against
 # SDL2_FOUND, if false, do not try to link to SDL2
-# SDL2_INCLUDE_DIR, where to find SDL.h
+# SDL2_INCLUDE_DIR, where to find the headers
 #
 # This module responds to the the flag:
 # SDL2_BUILDING_LIBRARY
@@ -27,8 +28,8 @@
 # variable, but when these values are unset, SDL2_LIBRARY does not get created.
 #
 #
-# $SDL2DIR is an environment variable that would
-# correspond to the ./configure --prefix=$SDL2DIR
+# $SDL2_DIR is an environment variable that would
+# correspond to the ./configure --prefix=$SDL2_DIR
 # used in building SDL2.
 # l.e.galup  9-20-02
 #
@@ -52,6 +53,8 @@
 # is #include "SDL.h", not <SDL2/SDL.h>. This is done for portability
 # reasons because not all systems place things in SDL2/ (see FreeBSD).
 
+# Modified by Egor Makarenko, 2016
+
 #=============================================================================
 # Copyright 2003-2009 Kitware, Inc.
 #
@@ -67,7 +70,7 @@
 
 message("<FindSDL2.cmake>")
 
-SET(SDL2_SEARCH_PATHS
+set(SDL2_SEARCH_PATHS
 	~/Library/Frameworks
 	/Library/Frameworks
 	/usr/local
@@ -76,20 +79,20 @@ SET(SDL2_SEARCH_PATHS
 	/opt/local # DarwinPorts
 	/opt/csw # Blastwave
 	/opt
-	$ENV{SDL2DIR}
+	$ENV{SDL2_DIR} # Windows
 )
 
-FIND_PATH(SDL2_INCLUDE_DIR SDL.h
+find_path(SDL2_INCLUDE_DIR SDL.h
 	HINTS
-	$ENV{SDL2DIR}
+	$ENV{SDL2_DIR}
 	PATH_SUFFIXES include/SDL2 include
 	PATHS ${SDL2_SEARCH_PATHS}
 )
 
-FIND_LIBRARY(SDL2_LIBRARY_TEMP
+find_library(SDL2_LIBRARY_TEMP
 	NAMES SDL2
 	HINTS
-	$ENV{SDL2DIR}
+	$ENV{SDL2_DIR}
 	PATH_SUFFIXES lib64 lib lib/x64 lib/x86
 	PATHS ${SDL2_SEARCH_PATHS}
 )
@@ -100,10 +103,10 @@ IF(NOT SDL2_BUILDING_LIBRARY)
 		# SDL2main. This is mainly for Windows and OS X. Other (Unix) platforms
 		# seem to provide SDL2main for compatibility even though they don't
 		# necessarily need it.
-		FIND_LIBRARY(SDL2MAIN_LIBRARY
+		find_library(SDL2_MAIN_LIBRARY
 			NAMES SDL2main
 			HINTS
-			$ENV{SDL2DIR}
+			$ENV{SDL2_DIR}
 			PATH_SUFFIXES lib64 lib lib/x64 lib/x86
 			PATHS ${SDL2_SEARCH_PATHS}
 		)
@@ -128,9 +131,9 @@ ENDIF(MINGW)
 IF(SDL2_LIBRARY_TEMP)
 	# For SDL2main
 	IF(NOT SDL2_BUILDING_LIBRARY)
-		IF(SDL2MAIN_LIBRARY)
-			SET(SDL2_LIBRARY_TEMP ${SDL2MAIN_LIBRARY} ${SDL2_LIBRARY_TEMP})
-		ENDIF(SDL2MAIN_LIBRARY)
+		IF(SDL2_MAIN_LIBRARY)
+			SET(SDL2_LIBRARY_TEMP ${SDL2_MAIN_LIBRARY} ${SDL2_LIBRARY_TEMP})
+		ENDIF(SDL2_MAIN_LIBRARY)
 	ENDIF(NOT SDL2_BUILDING_LIBRARY)
 
 	# For OS X, SDL2 uses Cocoa as a backend so it must link to Cocoa.
@@ -166,4 +169,3 @@ message("</FindSDL2.cmake>")
 INCLUDE(FindPackageHandleStandardArgs)
 
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(SDL2 REQUIRED_VARS SDL2_LIBRARY SDL2_INCLUDE_DIR)
-
