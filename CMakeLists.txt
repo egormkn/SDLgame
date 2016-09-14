@@ -5,7 +5,7 @@ project(SDLgame)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SOURCE_DIR}/cmake")
 
-set(SOURCE_FILES Texture.cpp)
+set(SOURCE_FILES Move.cpp)
 add_executable(SDLgame ${SOURCE_FILES})
 
 # For Windows you should create environment variable "SDL2DIR"
