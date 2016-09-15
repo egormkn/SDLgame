@@ -1,32 +1,23 @@
-# Locate SDL_image library
+# Locate SDL2_ttf library
 #
 # This module defines:
+# SDL2_TTF_LIBRARY, the name of the library to link against
+# SDL2_TTF_FOUND, if false, do not try to link to SDL2_image
+# SDL2_TTF_INCLUDE_DIR, where to find the headers
+# SDL2_TTF_VERSION_STRING - human-readable string containing the version of SDL_image
 #
-# ::
+# $SDL2_DIR is an environment variable that would correspond to the
+# ./configure --prefix=$SDL2_DIR used in building SDL2.
 #
-#   SDL_TTF_LIBRARIES, the name of the library to link against
-#   SDL_TTF_INCLUDE_DIRS, where to find the headers
-#   SDL_TTF_FOUND, if false, do not try to link against
-#   SDL_F_VERSION_STRING - human-readable string containing the version of SDL_ttf
-#
-#
-#
-# For backward compatiblity the following variables are also set:
-#
-# ::
-#
-#   SDLTTF_LIBRARY (same value as SDL_TTF_LIBRARIES)
-#   SDLTTF_INCLUDE_DIR (same value as SDL_TTF_INCLUDE_DIRS)
-#   SDLTTF_FOUND (same value as SDL_TTF_FOUND)
-#
-#
-#
-# $SDLDIR is an environment variable that would correspond to the
-# ./configure --prefix=$SDLDIR used in building SDL.
+# $SDL2_TTF_DIR is an environment variable that would
+# correspond to the ./configure --prefix=$SDL2_TTF_DIR
+# used in building SDL2_ttf.
 #
 # Created by Eric Wing.  This was influenced by the FindSDL.cmake
 # module, but with modifications to recognize OS X frameworks and
 # additional Unix paths (FreeBSD, etc).
+
+# Modified by Egor Makarenko, 2016
 
 #=============================================================================
 # Copyright 2005-2009 Kitware, Inc.
@@ -42,14 +33,27 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
+message("<FindSDL2_ttf.cmake>")
+
+set(SDL2_TTF_SEARCH_PATHS
+        ~/Library/Frameworks
+        /Library/Frameworks
+        /usr/local
+        /usr
+        /sw # Fink
+        /opt/local # DarwinPorts
+        /opt/csw # Blastwave
+        /opt
+        $ENV{SDL2_DIR} # Windows
+        $ENV{SDL2_TTF_DIR}
+        )
+
 find_path(SDL2_TTF_INCLUDE_DIR SDL_ttf.h
         HINTS
-        ENV SDL2TTFDIR
-        ENV SDL2DIR
-        PATH_SUFFIXES SDL2
-        # path suffixes to search inside ENV{SDLDIR}
-        include/SDL2 include
-        PATHS ${SDL2_PATH}
+        $ENV{SDL2_DIR}
+        $ENV{SDL2_TTF_DIR}
+        PATH_SUFFIXES include/SDL2 include
+        PATHS ${SDL2_TTF_SEARCH_PATHS}
         )
 
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -61,14 +65,14 @@ endif ()
 find_library(SDL2_TTF_LIBRARY
         NAMES SDL2_ttf
         HINTS
-        ENV SDL2TTFDIR
-        ENV SDL2DIR
-        PATH_SUFFIXES lib ${VC_LIB_PATH_SUFFIX}
-        PATHS ${SDL2_PATH}
+        $ENV{SDL2_DIR}
+        $ENV{SDL2_TTF_DIR}
+        PATH_SUFFIXES lib64 lib ${VC_LIB_PATH_SUFFIX}
+        PATHS ${SDL2_TTF_SEARCH_PATHS}
         )
 
 if (SDL2_TTF_INCLUDE_DIR AND EXISTS "${SDL2_TTF_INCLUDE_DIR}/SDL_ttf.h")
-    file(STRINGS "${SDL2_TTF_INCLUDE_DIR}/SDL_ttf.h" SDL_TTF_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL_TTF_MAJOR_VERSION[ \t]+[0-9]+$")
+    file(STRINGS "${SDL2_TTF_INCLUDE_DIR}/SDL_ttf.h" SDL2_TTF_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL2_TTF_MAJOR_VERSION[ \t]+[0-9]+$")
     file(STRINGS "${SDL2_TTF_INCLUDE_DIR}/SDL_ttf.h" SDL2_TTF_VERSION_MINOR_LINE REGEX "^#define[ \t]+SDL2_TTF_MINOR_VERSION[ \t]+[0-9]+$")
     file(STRINGS "${SDL2_TTF_INCLUDE_DIR}/SDL_ttf.h" SDL2_TTF_VERSION_PATCH_LINE REGEX "^#define[ \t]+SDL2_TTF_PATCHLEVEL[ \t]+[0-9]+$")
     string(REGEX REPLACE "^#define[ \t]+SDL2_TTF_MAJOR_VERSION[ \t]+([0-9]+)$" "\\1" SDL2_TTF_VERSION_MAJOR "${SDL2_TTF_VERSION_MAJOR_LINE}")
@@ -83,16 +87,11 @@ if (SDL2_TTF_INCLUDE_DIR AND EXISTS "${SDL2_TTF_INCLUDE_DIR}/SDL_ttf.h")
     unset(SDL2_TTF_VERSION_PATCH)
 endif ()
 
-set(SDL2_TTF_LIBRARIES ${SDL2_TTF_LIBRARY})
-set(SDL2_TTF_INCLUDE_DIRS ${SDL2_TTF_INCLUDE_DIR})
-
 include(FindPackageHandleStandardArgs)
 
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(SDL2_ttf
-        REQUIRED_VARS SDL2_TTF_LIBRARIES SDL2_TTF_INCLUDE_DIRS
+        REQUIRED_VARS SDL2_TTF_LIBRARY SDL2_TTF_INCLUDE_DIR
         VERSION_VAR SDL2_TTF_VERSION_STRING)
 
-# for backward compatiblity
-#set(SDLTTF_LIBRARY ${SDL_TTF_LIBRARIES})
-#set(SDLTTF_INCLUDE_DIR ${SDL_TTF_INCLUDE_DIRS})
-#set(SDLTTF_FOUND ${SDL_TTF_FOUND})
+mark_as_advanced(SDL2_TTF_LIBRARY SDL2_TTF_INCLUDE_DIR)
+		

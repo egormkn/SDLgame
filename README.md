@@ -1,7 +1,8 @@
 # Проектная работа на C/C++: 2D-Shooter
 
 ### План выполнения
-* Ознакомление с уроками по работе с библиотеками [SDL2](http://lazyfoo.net/tutorials/SDL/index.php) (SDLmain, SDL_image, SDL_net, SDL), [Box2D](http://box2d.org/documentation.html), [TinyXML](https://github.com/leethomason/tinyxml2), редактором уровней [Tiled Map Editor](https://thorbjorn.itch.io/tiled)
+* Ознакомление с уроками по работе с библиотеками 
+[SDL2](http://lazyfoo.net/tutorials/SDL/index.php) (SDLmain, SDL_image, SDL_net, SDL), [Box2D](http://box2d.org/documentation.html), [TinyXML2](https://github.com/leethomason/tinyxml2), редактором уровней [Tiled Map Editor](https://thorbjorn.itch.io/tiled)
 * Создание заготовки проекта: парсер игровых уровней, рендеринг (октябрь 2016)
   * Поддержка формата Tiled Map Editor
   * Смена уровней
