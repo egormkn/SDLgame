@@ -1,7 +1,7 @@
 # Проектная работа на C/C++: 2D-Shooter
 
 ### План выполнения
-* Ознакомление с уроками по работе с библиотеками [SDL2](http://lazyfoo.net/tutorials/SDL/index.php) (SDLmain, SDL_image, SDL_net), [Box2D](http://box2d.org/documentation.html), [TinyXML](https://github.com/leethomason/tinyxml2), редактором уровней [Tiled Map Editor](https://thorbjorn.itch.io/tiled)
+* Ознакомление с уроками по работе с библиотеками [SDL2](http://lazyfoo.net/tutorials/SDL/index.php) (SDLmain, SDL_image, SDL_net, SDL), [Box2D](http://box2d.org/documentation.html), [TinyXML](https://github.com/leethomason/tinyxml2), редактором уровней [Tiled Map Editor](https://thorbjorn.itch.io/tiled)
 * Создание заготовки проекта: парсер игровых уровней, рендеринг
 * Создание игрового меню
 * Заготовка для персонажа: весёлый прыгающий кубик
@@ -10,9 +10,15 @@
 * Отладка предыдущих шагов, переписывание половины кода
 * Работа над графикой, дизайн
 * Дополнительные эффекты (освещение, частицы)
+* Локализация игры
 * Переписывание другой половины кода
 * *Тут что-то похожее на игру*
 
+### Команда проекта
+* Егор Макаренко (М3237)
+* Влад Земцов (М3237)
+* Андрей Кириченко (М3237)
+* Иван Гузёв (М3236)
 
 Источники ~~плагиата~~ вдохновения: [Shootmania: Storm](http://maniaplanet.com/shootmania), [Cobalt](http://playcobalt.com/), какая-то игра про уток о_О
   
