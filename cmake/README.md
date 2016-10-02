@@ -68,4 +68,4 @@ are released under the two-clause BSD licence.
 
 These scripts are provided in the hope that you might find them useful. They work for me and hopefully they'll work for you too. If you fix any issues with them then I'd appreciate a pull request so other users can get your fixes too, but that's up to you :-).
 
-
+Modified by Egor Makarenko, 2016
