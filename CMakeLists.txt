@@ -4,7 +4,15 @@ project(SDLgame)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SOURCE_DIR}/cmake")
+
 include(${PROJECT_SOURCE_DIR}/cmake/LibraryPaths.cmake OPTIONAL)
+# You can set custom library paths in file cmake/LibraryPaths.cmake
+# For example:
+# set(SDL2_DIR "C:\\Programs\\SDL2-2.0.4\\i686-w64-mingw32")
+# set(SDL2_IMAGE_DIR "C:\\Programs\\SDL2_image-2.0.1\\i686-w64-mingw32")
+# set(SDL2_MIXER_DIR "C:\\Programs\\SDL2_mixer-2.0.1\\i686-w64-mingw32")
+# set(SDL2_NET_DIR "C:\\Programs\\SDL2_net-2.0.1\\i686-w64-mingw32")
+# set(SDL2_TTF_DIR "C:\\Programs\\SDL2_ttf-2.0.14\\i686-w64-mingw32")
 
 set(SOURCE_FILES src/main.cpp)
 add_executable(SDLgame ${SOURCE_FILES})
