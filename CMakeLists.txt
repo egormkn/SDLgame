@@ -4,12 +4,13 @@ project(SDLgame)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SOURCE_DIR}/cmake")
+include(${PROJECT_SOURCE_DIR}/cmake/LibraryPaths.cmake OPTIONAL)
 
 set(SOURCE_FILES src/main.cpp)
 add_executable(SDLgame ${SOURCE_FILES})
 set_property(TARGET SDLgame PROPERTY CXX_STANDARD 11)
 
-# See /cmake/README.md for SDL setup reference
+# See /cmake/README.md for library setup reference
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)

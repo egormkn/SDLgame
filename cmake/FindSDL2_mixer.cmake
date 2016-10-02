@@ -6,10 +6,10 @@
 # SDL2_MIXER_INCLUDE_DIR, where to find the headers
 # SDL2_MIXER_VERSION_STRING - human-readable string containing the version of SDL_mixer
 #
-# $SDL2_DIR is an environment variable that would correspond to the
+# $SDL2_DIR is an environment or cmake variable that would correspond to the
 # ./configure --prefix=$SDL2_DIR used in building SDL2.
 #
-# $SDL2_MIXER_DIR is an environment variable that would
+# $SDL2_MIXER_DIR is an environment or cmake variable that would
 # correspond to the ./configure --prefix=$SDL2_MIXER_DIR
 # used in building SDL2_mixer.
 #
@@ -36,25 +36,27 @@
 message("<FindSDL2_mixer.cmake>")
 
 set(SDL2_MIXER_SEARCH_PATHS
-        ~/Library/Frameworks
-        /Library/Frameworks
-        /usr/local
-        /usr
-        /sw # Fink
-        /opt/local # DarwinPorts
-        /opt/csw # Blastwave
-        /opt
-        $ENV{SDL2_DIR} # Windows
-        $ENV{SDL2_MIXER_DIR}
-        )
+    ~/Library/Frameworks
+    /Library/Frameworks
+    /usr/local
+    /usr
+    /sw # Fink
+    /opt/local # DarwinPorts
+    /opt/csw # Blastwave
+    /opt
+    $ENV{SDL2_DIR} # Windows
+    $ENV{SDL2_MIXER_DIR}
+    ${SDL2_DIR}
+    ${SDL2_MIXER_DIR}
+)
 
 find_path(SDL2_MIXER_INCLUDE_DIR SDL_mixer.h
-        HINTS
-        $ENV{SDL2_DIR}
-        $ENV{SDL2_MIXER_DIR}
-        PATH_SUFFIXES include/SDL2 include
-        PATHS ${SDL2_MIXER_SEARCH_PATHS}
-        )
+    HINTS
+    $ENV{SDL2_DIR}
+    $ENV{SDL2_MIXER_DIR}
+    PATH_SUFFIXES include/SDL2 include
+    PATHS ${SDL2_MIXER_SEARCH_PATHS}
+)
 
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(VC_LIB_PATH_SUFFIX lib/x64)
@@ -63,13 +65,13 @@ else ()
 endif ()
 
 find_library(SDL2_MIXER_LIBRARY
-        NAMES SDL2_mixer
-        HINTS
-        $ENV{SDL2_DIR}
-        $ENV{SDL2_MIXER_DIR}
-        PATH_SUFFIXES lib64 lib ${VC_LIB_PATH_SUFFIX}
-        PATHS ${SDL2_PATH}
-        )
+    NAMES SDL2_mixer
+    HINTS
+    $ENV{SDL2_DIR}
+    $ENV{SDL2_MIXER_DIR}
+    PATH_SUFFIXES lib64 lib ${VC_LIB_PATH_SUFFIX}
+    PATHS ${SDL2_PATH}
+)
 
 if (SDL2_MIXER_INCLUDE_DIR AND EXISTS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h")
     file(STRINGS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h" SDL2_MIXER_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL2_MIXER_MAJOR_VERSION[ \t]+[0-9]+$")
@@ -92,8 +94,8 @@ set(SDL2_MIXER_INCLUDE_DIR ${SDL2_MIXER_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)
 
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(SDL2_mixer
-        REQUIRED_VARS SDL2_MIXER_LIBRARY SDL2_MIXER_INCLUDE_DIR
-        VERSION_VAR SDL2_MIXER_VERSION_STRING)
+find_package_handle_standard_args(SDL2_mixer
+    REQUIRED_VARS SDL2_MIXER_LIBRARY SDL2_MIXER_INCLUDE_DIR
+    VERSION_VAR SDL2_MIXER_VERSION_STRING)
 
 mark_as_advanced(SDL2_MIXER_LIBRARY SDL2_MIXER_INCLUDE_DIR)

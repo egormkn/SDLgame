@@ -6,10 +6,10 @@
 # SDL2_NET_INCLUDE_DIR, where to find the headers
 # SDL2_NET_VERSION_STRING - human-readable string containing the version of SDL_net
 #
-# $SDL2_DIR is an environment variable that would correspond to the
+# $SDL2_DIR is an environment or cmake variable that would correspond to the
 # ./configure --prefix=$SDL2_DIR used in building SDL2.
 #
-# $SDL2_NET_DIR is an environment variable that would
+# $SDL2_NET_DIR is an environment or cmake variable that would
 # correspond to the ./configure --prefix=$SDL2_NET_DIR
 # used in building SDL2_net.
 #
@@ -36,25 +36,27 @@
 message("<FindSDL2_net.cmake>")
 
 set(SDL2_NET_SEARCH_PATHS
-        ~/Library/Frameworks
-        /Library/Frameworks
-        /usr/local
-        /usr
-        /sw # Fink
-        /opt/local # DarwinPorts
-        /opt/csw # Blastwave
-        /opt
-        $ENV{SDL2_DIR} # Windows
-        $ENV{SDL2_NET_DIR}
-        )
+    ~/Library/Frameworks
+    /Library/Frameworks
+    /usr/local
+    /usr
+    /sw # Fink
+    /opt/local # DarwinPorts
+    /opt/csw # Blastwave
+    /opt
+    $ENV{SDL2_DIR} # Windows
+    $ENV{SDL2_NET_DIR}
+    ${SDL2_DIR}
+    ${SDL2_NET_DIR}
+)
 
 find_path(SDL2_NET_INCLUDE_DIR SDL_net.h
-        HINTS
-        $ENV{SDL2_DIR}
-        $ENV{SDL2_NET_DIR}
-        PATH_SUFFIXES include/SDL2 include
-        PATHS ${SDL2_NET_SEARCH_PATHS}
-        )
+    HINTS
+    $ENV{SDL2_DIR}
+    $ENV{SDL2_NET_DIR}
+    PATH_SUFFIXES include/SDL2 include
+    PATHS ${SDL2_NET_SEARCH_PATHS}
+)
 
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(VC_LIB_PATH_SUFFIX lib/x64)
@@ -63,13 +65,13 @@ else ()
 endif ()
 
 find_library(SDL2_NET_LIBRARY
-        NAMES SDL2_net
-        HINTS
-        $ENV{SDL2_DIR}
-        $ENV{SDL2_NET_DIR}
-        PATH_SUFFIXES lib64 lib ${VC_LIB_PATH_SUFFIX}
-        PATHS ${SDL2_PATH}
-        )
+    NAMES SDL2_net
+    HINTS
+    $ENV{SDL2_DIR}
+    $ENV{SDL2_NET_DIR}
+    PATH_SUFFIXES lib64 lib ${VC_LIB_PATH_SUFFIX}
+    PATHS ${SDL2_PATH}
+)
 
 if (SDL2_NET_INCLUDE_DIR AND EXISTS "${SDL2_NET_INCLUDE_DIR}/SDL_net.h")
     file(STRINGS "${SDL2_NET_INCLUDE_DIR}/SDL_net.h" SDL2_NET_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL2_NET_MAJOR_VERSION[ \t]+[0-9]+$")
@@ -92,8 +94,8 @@ set(SDL2_NET_INCLUDE_DIR ${SDL2_NET_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)
 
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(SDL2_net
-        REQUIRED_VARS SDL2_NET_LIBRARY SDL2_NET_INCLUDE_DIR
-        VERSION_VAR SDL2_NET_VERSION_STRING)
+find_package_handle_standard_args(SDL2_net
+    REQUIRED_VARS SDL2_NET_LIBRARY SDL2_NET_INCLUDE_DIR
+    VERSION_VAR SDL2_NET_VERSION_STRING)
 
 mark_as_advanced(SDL2_NET_LIBRARY SDL2_NET_INCLUDE_DIR)

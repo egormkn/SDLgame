@@ -6,10 +6,10 @@
 # SDL2_IMAGE_INCLUDE_DIR, where to find the headers
 # SDL2_IMAGE_VERSION_STRING - human-readable string containing the version of SDL_image
 #
-# $SDL2_DIR is an environment variable that would correspond to the
+# $SDL2_DIR is an environment or cmake variable that would correspond to the
 # ./configure --prefix=$SDL2_DIR used in building SDL2.
 #
-# $SDL2_IMAGE_DIR is an environment variable that would
+# $SDL2_IMAGE_DIR is an environment or cmake variable that would
 # correspond to the ./configure --prefix=$SDL2_IMAGE_DIR
 # used in building SDL2_image.
 #
@@ -36,42 +36,44 @@
 message("<FindSDL2_image.cmake>")
 
 set(SDL2_IMAGE_SEARCH_PATHS
-	~/Library/Frameworks
-	/Library/Frameworks
-	/usr/local
-	/usr
-	/sw # Fink
-	/opt/local # DarwinPorts
-	/opt/csw # Blastwave
-	/opt
-	$ENV{SDL2_DIR} # Windows
-	$ENV{SDL2_IMAGE_DIR}
+    ~/Library/Frameworks
+    /Library/Frameworks
+    /usr/local
+    /usr
+    /sw # Fink
+    /opt/local # DarwinPorts
+    /opt/csw # Blastwave
+    /opt
+    $ENV{SDL2_DIR} # Windows
+    $ENV{SDL2_IMAGE_DIR}
+    ${SDL2_DIR}
+    ${SDL2_IMAGE_DIR}
 )
 
 find_path(SDL2_IMAGE_INCLUDE_DIR SDL_image.h
     HINTS
     $ENV{SDL2_DIR}
-	$ENV{SDL2_IMAGE_DIR}
+    $ENV{SDL2_IMAGE_DIR}
     PATH_SUFFIXES include/SDL2 include
     PATHS ${SDL2_IMAGE_SEARCH_PATHS}
 )
 
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(VC_LIB_PATH_SUFFIX lib/x64)
-else()
+else ()
     set(VC_LIB_PATH_SUFFIX lib/x86)
-endif()
+endif ()
 
 find_library(SDL2_IMAGE_LIBRARY
-	NAMES SDL2_image
-	HINTS
-	$ENV{SDL2_DIR}
-	$ENV{SDL2_IMAGE_DIR}
-	PATH_SUFFIXES lib64 lib ${VC_LIB_PATH_SUFFIX}
-        PATHS ${SDL2_IMAGE_SEARCH_PATHS}
+    NAMES SDL2_image
+    HINTS
+    $ENV{SDL2_DIR}
+    $ENV{SDL2_IMAGE_DIR}
+    PATH_SUFFIXES lib64 lib ${VC_LIB_PATH_SUFFIX}
+    PATHS ${SDL2_IMAGE_SEARCH_PATHS}
 )
 
-if(SDL2_IMAGE_INCLUDE_DIR AND EXISTS "${SDL2_IMAGE_INCLUDE_DIR}/SDL_image.h")
+if (SDL2_IMAGE_INCLUDE_DIR AND EXISTS "${SDL2_IMAGE_INCLUDE_DIR}/SDL_image.h")
     file(STRINGS "${SDL2_IMAGE_INCLUDE_DIR}/SDL_image.h" SDL2_IMAGE_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL2_IMAGE_MAJOR_VERSION[ \t]+[0-9]+$")
     file(STRINGS "${SDL2_IMAGE_INCLUDE_DIR}/SDL_image.h" SDL2_IMAGE_VERSION_MINOR_LINE REGEX "^#define[ \t]+SDL2_IMAGE_MINOR_VERSION[ \t]+[0-9]+$")
     file(STRINGS "${SDL2_IMAGE_INCLUDE_DIR}/SDL_image.h" SDL2_IMAGE_VERSION_PATCH_LINE REGEX "^#define[ \t]+SDL2_IMAGE_PATCHLEVEL[ \t]+[0-9]+$")
@@ -85,12 +87,12 @@ if(SDL2_IMAGE_INCLUDE_DIR AND EXISTS "${SDL2_IMAGE_INCLUDE_DIR}/SDL_image.h")
     unset(SDL2_IMAGE_VERSION_MAJOR)
     unset(SDL2_IMAGE_VERSION_MINOR)
     unset(SDL2_IMAGE_VERSION_PATCH)
-endif()
+endif ()
 
 include(FindPackageHandleStandardArgs)
 
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(SDL2_image
-        REQUIRED_VARS SDL2_IMAGE_LIBRARY SDL2_IMAGE_INCLUDE_DIR
-        VERSION_VAR SDL2_IMAGE_VERSION_STRING)
+find_package_handle_standard_args(SDL2_image
+    REQUIRED_VARS SDL2_IMAGE_LIBRARY SDL2_IMAGE_INCLUDE_DIR
+    VERSION_VAR SDL2_IMAGE_VERSION_STRING)
 
 mark_as_advanced(SDL2_IMAGE_LIBRARY SDL2_IMAGE_INCLUDE_DIR)
