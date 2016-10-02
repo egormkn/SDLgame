@@ -1,5 +1,5 @@
 # Custom paths
-cmake/LibraryPaths.cmake
+/cmake/LibraryPaths.cmake
 
 # Jetbrains files
 .idea/
