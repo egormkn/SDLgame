@@ -4,7 +4,7 @@ project(SDLgameserver)
 
 message("Game Server")
 
-add_executable(SDLgameserver src/main2.cpp)
+add_executable(SDLgameserver src/main2.cpp src/TCPClient.cpp src/TCPServer.cpp)
 set_property(TARGET SDLgameserver PROPERTY CXX_STANDARD 11)
 
 target_link_libraries(SDLgameserver

@@ -15,6 +15,7 @@
 #include <vector>
 #include <string>
 
+#include "SDL_net.h"
 #include "NetManager.h"
 
 bool portSet = false;
@@ -39,6 +40,10 @@ void GetSettingsFromUser();
 void PrintAllMessages(const std::vector<std::string> &v);
 
 int main(int argv, char **args) {
+    if(!SDLNet_Init() == -1) {
+        std::cout << "Can't init\n";
+        std::cout << SDLNet_GetError() << "\n";
+    }
     GetSettingsFromUser();
 
     PrintStats();
