@@ -41,7 +41,6 @@ public:
         clientCon->AddToSocketSet(&clientSocketSet);
 
         clientConnections.emplace_back(std::move(clientCon));
-
         return true;
     }
 

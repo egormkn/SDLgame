@@ -34,15 +34,14 @@ public:
     }
 
     // Initialization
-    // ================================================================
     bool SetupIPAddress() {
         std::cout << "[CLIENT] Resolving host " << ip << " : " << port << std::endl;
 
         // Set up the IPAddress struct so that it has the correct IP and port to the server
-        // As stated before, this ONLU sets up the IPaddress. It doesn't try to connect to a server
+        // As stated before, this ONLY sets up the IPaddress. It doesn't try to connect to a server
         int success = SDLNet_ResolveHost(&ipAddress, ip.c_str(), port);
 
-        if(success == -1) {
+        if (success == -1) {
             std::cout << "[CLIENT] Failed to resolve host " << ip << " : " << port << std::endl;
             return false;
         }
@@ -60,7 +59,7 @@ public:
         // ( Which we do using SDLNet_TCP_Accept)
         tcpSocket = SDLNet_TCP_Open(&ipAddress);
 
-        if(tcpSocket == nullptr) {
+        if (tcpSocket == nullptr) {
             std::cout << "[CLIENT] Failed to open port " << ip << " : " << port
                       << " \n\tError : " << SDLNet_GetError()
                       << std::endl;
@@ -79,10 +78,10 @@ public:
         void *messageData = ConvertStringToVoidPtr(str);
         int messageSize = static_cast< int > ( str.length());
 
-        int bytesSent = bytesSent = SDLNet_TCP_Send(tcpSocket, messageData, messageSize);
+        int bytesSent = SDLNet_TCP_Send(tcpSocket, messageData, messageSize);
 
         std::cout << "Trying to send " << str << "\tsent : " << bytesSent << std::endl;
-        if(bytesSent < messageSize) {
+        if (bytesSent < messageSize) {
             std::cout << "\tSend failed : " << SDLNet_GetError() << std::endl;
         }
     }
@@ -101,24 +100,24 @@ public:
         std::cout << "[CLIENT] Received : " << byteCount << " bytes\n";
 
         // Success! We received something ...
-        if(byteCount > 0) {
-            // Set the last character to '\0' which means "end of stirng"
+        if (byteCount > 0) {
+            // Set the last character to '\0' which means "end of string"
             buffer[byteCount] = '\0';
             received = buffer;
 
             // If we received more data than our buffer can hold, we will only return the bufferSize first bytes.
-            if(byteCount >= bufferSize)
+            if (byteCount >= bufferSize)
                 std::cout << "[CLIENT] Too much data received : " << byteCount
                           << "\tbuffer size : " << bufferSize
                           << "\n\tMaybe increase buffer size?" << std::endl;
         }
             // A bytecount of 0 means the connection has been terminated
-        else if(byteCount == 0) {
+        else if (byteCount == 0) {
             isConnected = false;
             std::cout << "[CLIENT] Connection terminated : " << std::endl;
         }
             // A bytecount of < 0 means an error occured
-        else if(byteCount < 0) {
+        else if (byteCount < 0) {
             isConnected = false;
             std::cout << "[CLIENT] Read Failed, terminating connection : " << SDLNet_GetError() << std::endl;
         }
@@ -171,7 +170,7 @@ private:
     // This should really be larger, but feel free to experiment with it
     const int bufferSize = 10;
 
-    // Holds the adress and port to the server
+    // Holds the address and port to the server
     // NOTE: If this object was created via a server connection, it will be null
     // (which is okay since we just use it to try to connect to the server anyways )
     IPaddress ipAddress;
