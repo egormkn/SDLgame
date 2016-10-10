@@ -21,11 +21,17 @@ private:
 public:
     TCPServer (int32_t port_);
 
+    ~TCPServer();
+
     bool setupPort();
 
-    bool OpenPortForListening();
+    bool openPortForListening();
 
     bool canAcceptConnection();
 
-    void AcceptConnection();
+    void acceptConnection();
+
+    bool checkForActivity();
+
+    void sendFile(TCPsocket socket, std::string file_dir);
 };

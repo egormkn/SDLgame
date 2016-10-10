@@ -11,7 +11,7 @@
 
 class TCPClient {
 private:
-    bool isConnected = false;
+    bool isConnectedFlag = false;
 
     std::string ip;
     int32_t port;
@@ -28,12 +28,13 @@ public:
 
     TCPClient (TCPsocket newSocket);
 
-    //Initialization with current ip and port
     bool setupIpAddress();
 
     bool openConnectionToServer();
 
-    void Close();
+    void close();
 
-    bool IsConnected();
+    bool isConnected();
+
+    void readFile();
 };

@@ -10,8 +10,8 @@
 #include "TCPClient.h"
 #include "TCPServer.h"
 
-TCPClient* client;
-TCPServer* server;
+TCPClient *client;
+TCPServer *server;
 
 std::string ip = "";
 int port;
@@ -20,7 +20,7 @@ bool isServer;
 void GetSettingsFromUser();
 
 int main(int argv, char **args) {
-    if(!SDLNet_Init() == -1) {
+    if (SDLNet_Init() == -1) {
         std::cout << "Can't init\n";
         std::cout << SDLNet_GetError() << "\n";
     }
@@ -34,35 +34,53 @@ int main(int argv, char **args) {
 
     if (isServer) {
         server->setupPort();
-        server->OpenPortForListening();
-        while(true) {
-            if (server->canAcceptConnection())
-                server->AcceptConnection();
-            std::cout << "waiting\n";
-            std::cout << "If you want to close put n\n";
+        server->openPortForListening();
+        if (server->canAcceptConnection())
+            server->acceptConnection();
+        while (true) {
+            std::cout << "Choose one and hit enter : "
+                      << "\n\tc -> check connections to accept"
+                      << "\n\tn -> quit"
+                              "\nYou choice : ";
             char state;
             std::cin >> state;
-            if (state == 'n') {
-                break;
-            } else {
-                continue;
+            switch (state) {
+                case 'c':
+                    if (server->canAcceptConnection()) {
+                        server->acceptConnection();
+                    }
+                    break;
+                case 'n':
+                    SDLNet_Quit();
+                    return 0;
+                default:
+                    continue;
             }
         }
     } else {
         client->setupIpAddress();
+        std::cout << "trying to connect\n";
+        client->openConnectionToServer();
         while (true) {
-            std::cout << "trying to connect\n";
-            client->openConnectionToServer();
-            std::cout << "If you want to close put n\n";
+            std::cout << "Choose one and hit enter : "
+                      << "\n\tr -> read file"
+                      << "\n\tn -> quit"
+                              "\nYou choice : ";
             char state;
             std::cin >> state;
-            if (state == 'n') {
-                break;
-            } else {
-                continue;
+            switch (state) {
+                case 'n':
+                    client->close();
+                    SDLNet_Quit();
+                    return 0;
+                case 'r':
+                    client->readFile();
+                    break;
+                default:
+                    continue;
             }
         }
-        client->Close();
+        client->close();
         return 0;
     }
 }
