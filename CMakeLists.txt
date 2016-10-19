@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.6)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SOURCE_DIR}/cmake")
 
 include(${PROJECT_SOURCE_DIR}/cmake/LibraryPaths.cmake OPTIONAL)
-# You can set custom library paths in file cmake/LibraryPaths.cmake
+
+# You can set custom library paths in file /cmake/LibraryPaths.cmake
 # For example:
 # set(SDL2_DIR "C:\\Programs\\SDL2-2.0.4\\i686-w64-mingw32")
 # set(SDL2_IMAGE_DIR "C:\\Programs\\SDL2_image-2.0.1\\i686-w64-mingw32")
