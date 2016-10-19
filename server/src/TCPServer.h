@@ -2,6 +2,12 @@
 // Created by Vlad on 09.10.2016.
 //
 
+/*
+ * codes for connection requests:
+ * 1 - get information
+ * 2 - try to connect to the server
+ */
+
 #pragma once
 
 #include <string>
@@ -15,11 +21,13 @@ private:
     int32_t port;
     IPaddress ipAddress;
     TCPsocket tcpSocket;
-    SDLNet_SocketSet serverSocketSet;
-    std::vector<std::unique_ptr<TCPClient> > serverConnections;
+    SDLNet_SocketSet clientSocketSet;
+    std::vector<std::unique_ptr<TCPClient> > clientConnections;
+
+    int fileSize(const char *filename);
 
 public:
-    TCPServer (int32_t port_);
+    TCPServer(int32_t port_);
 
     ~TCPServer();
 
@@ -31,7 +39,11 @@ public:
 
     void acceptConnection();
 
-    bool checkForActivity();
+    bool checkForRequests();
 
-    void sendFile(TCPsocket socket, std::string file_dir);
+    void getInformation();
+
+    void sendFile(int number, std::string file_dir);
+
+    void answerRequests();
 };

@@ -17,7 +17,6 @@ private:
     int32_t port;
 
     int32_t waitTime = 60000;
-    const int bufferSize = 2048;
 
     // Holds the address and port to the server
     IPaddress ipAddress;
@@ -37,4 +36,8 @@ public:
     bool isConnected();
 
     void readFile();
+
+    TCPsocket getSocket();
+
+    void sendRequest(int request_code);
 };
