@@ -20,6 +20,7 @@ find_package(SDL2_net REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 
 add_library(TinyXML STATIC lib/tinyxml/tinyxml2.cpp lib/tinyxml/tinyxml2.h)
+add_library(Logger STATIC lib/logger/logger.cpp lib/logger/logger.h)
 
 include_directories(${SDL2_INCLUDE_DIR}
     ${SDL2_IMAGE_INCLUDE_DIR}

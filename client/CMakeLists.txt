@@ -9,6 +9,7 @@ set_property(TARGET SDLgame PROPERTY CXX_STANDARD 11)
 
 target_link_libraries(SDLgame
     TinyXML
+    Logger
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARY}
     ${SDL2_TTF_LIBRARY}
